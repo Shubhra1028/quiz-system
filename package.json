@@ -1,0 +1,27 @@
+{
+  "name": "quiz-system",
+  "version": "1.0.0",
+  "description": "A quiz system manager for teachers and students",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shubhra1028/quiz-system.git"
+  },
+  "keywords": [
+    "quiz"
+  ],
+  "author": "Shubhra1028",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shubhra1028/quiz-system/issues"
+  },
+  "homepage": "https://github.com/Shubhra1028/quiz-system#readme",
+  "dependencies": {
+    "apollo-server": "^2.18.2",
+    "graphql": "^15.3.0",
+    "mongoose": "^5.10.9"
+  }
+}
