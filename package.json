@@ -4,7 +4,8 @@
   "description": "A quiz system manager for teachers and students",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,10 @@
   "homepage": "https://github.com/Shubhra1028/quiz-system#readme",
   "dependencies": {
     "apollo-server": "^2.18.2",
+    "bcryptjs": "^2.4.3",
     "graphql": "^15.3.0",
-    "mongoose": "^5.10.9"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.9",
+    "nodemon": "^2.0.6"
   }
 }
