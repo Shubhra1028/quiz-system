@@ -2,9 +2,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { UserInputError } = require("apollo-server");
 const { validateLoginInput, validateRegisterInput } = require("../../utils/validators")
+const checkAuth = require("../../utils/check-auth")
 
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/userModel");
+const Quiz = require("../../models/quizModel");
 
 function generateToken(user) {
   return jwt.sign(
@@ -19,6 +21,12 @@ function generateToken(user) {
 }
 
 module.exports = {
+  Query: {
+    async getUsers() {
+      const user = await User.find();
+      return user;
+    }
+  },
   Mutation: {
     // login
     async login(_, { username, password }) {
@@ -50,7 +58,6 @@ module.exports = {
     },
     // sign up
     async register(_, { registerInput: { username, role, password, confirmPassword } }) {
-      console.log(username, role, password, confirmPassword);
       const { errors, valid } = validateRegisterInput(username, role, password, confirmPassword);
       if (!valid) {
         throw new UserInputError("Errors", { errors });
@@ -82,5 +89,25 @@ module.exports = {
         token,
       };
     },
+    async submitQuiz(_, { quizId, pointsScored, timeTaken }, context) {
+      const auth = checkAuth(context);
+      if (!auth && auth.role === "teacher") {
+        errors.general = "User Not Permitted";
+        throw new UserInputError("User Not Permitted", { errors });
+      }
+      const quiz = await Quiz.findById(quizId)
+      if(!quiz) {
+        throw new Error("Quiz does not exist anymore")
+      }
+      const user = await User.findById(auth.id)
+      user.quizTaken = {
+        quiz,
+        pointsScored,
+        timeTaken
+      }
+
+      await user.save()
+      return user
+    }
   },
 };
